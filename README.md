@@ -1,4 +1,6 @@
 # HaskellTurtleGraphics
+NOTE: I apologize if the README is a bit poorly marked down - I am not familiar with writing aesthetically pleasing markups.
+
 This implements Assignment 1 in the Advanced Functional Programming course provided by Chalmers
 University (I am doing the one on http://www.cse.chalmers.se/edu/year/2016/course/course/TDA342\_Advanced\_Functional\_Programming/index.html). 
 
