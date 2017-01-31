@@ -57,8 +57,11 @@ I wanted to experiment with Type classes and some more advanced Haskell features
 where NextAction TProgram Energy indicates if the program finished completely, whereby the remaining energy is returned, or if the program partially finished during the time step, whereby the remaining piece of the program is returned. The Turtle part is the final Turtle after the time step, and TSummary summarizes all of the operations that were done on the Turtle in that time step, along with any other events that occurred.
 
 There was an interesting question in the assignment about a Turtle program being a monoid. In my case, it is a monoid with mempty = idle, and mappend = >*>. I define two programs as being equal iff they take the Turtle through the same sequence of step and have it end up at the same final state. Note that under this definition, the monoid laws hold:
+			
 			idle `mappend` p = p
+
 			p `mappend` idle = p
+
 			(p1 `mappend` p2) `mappend` p3
 
 The first two laws are always true - because the idle program does not do anything at all and because it is instantaneous, the net effect on a Turtle program is to just execute p.
