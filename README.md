@@ -74,14 +74,28 @@ coordinates. This is especially true if the values for the maximum # of forward 
 no. of degrees that the Turtle can rotate change. The Turtle starts off at a point slightly above the
 bottom edge of the window at the center.
 
-Some cool example programs can be found in the TProgramExtras.hs module. The one that is currently running (if executed using cabal right after cloning the repo) has four Turtles draw the Triforce from Legend of Zelda.
+Some cool example programs can be found in the TProgramExtras.hs module. The one that is currently 
+running (if executed using cabal right after cloning the repo) has four Turtles draw the Triforce 
+from Legend of Zelda.
 
-I wanted to experiment with Type classes and some more advanced Haskell features in this project, so I chose to create an abstract type class representing programs that animate some form of object. The code and explanation for this can be found in the code contained in the TimeStep folder of the project (see code organization below). Using this representation resulted in a shallow embedding - a simple Turtle program (not parallel) is just a function with the following type (w/o all the newtype wrappers):
+I wanted to experiment with Type classes and some more advanced Haskell features in this project, 
+so I chose to create an abstract type class representing programs that animate some form of object. 
+The code and explanation for this can be found in the code contained in the TimeStep folder of the 
+project (see code organization below). Using this representation resulted in a shallow embedding - 
+a simple Turtle program (not parallel) is just a function with the following type (w/o all the 
+newtype wrappers):
 	Energy -> Turtle -> (NextAction TProgram Energy, Turtle, TSummary)
 
-where NextAction TProgram Energy indicates if the program finished completely, whereby the remaining energy is returned, or if the program partially finished during the time step, whereby the remaining piece of the program is returned. The Turtle part is the final Turtle after the time step, and TSummary summarizes all of the operations that were done on the Turtle in that time step, along with any other events that occurred.
+where NextAction TProgram Energy indicates if the program finished completely, whereby the remaining 
+energy is returned, or if the program partially finished during the time step, whereby the remaining 
+piece of the program is returned. The Turtle part is the final Turtle after the time step, and 
+TSummary summarizes all of the operations that were done on the Turtle in that time step, along with 
+any other events that occurred.
 
-There was an interesting question in the assignment about a Turtle program being a monoid. In my case, it is a monoid with mempty = idle, and mappend = >*>. I define two programs as being equal iff they take the Turtle through the same sequence of step and have it end up at the same final state. Note that under this definition, the monoid laws hold:
+There was an interesting question in the assignment about a Turtle program being a monoid. In my case
+, it is a monoid with mempty = idle, and mappend = >*>. I define two programs as being equal iff they
+ take the Turtle through the same sequence of step and have it end up at the same final state. Note 
+that under this definition, the monoid laws hold:
 			
 			idle `mappend` p = p
 
@@ -89,21 +103,34 @@ There was an interesting question in the assignment about a Turtle program being
 
 			(p1 `mappend` p2) `mappend` p3
 
-The first two laws are always true - because the idle program does not do anything at all and because it is instantaneous, the net effect on a Turtle program is to just execute p.
+The first two laws are always true - because the idle program does not do anything at all and because
+it is instantaneous, the net effect on a Turtle program is to just execute p.
 
-The associativity law is also true with >*> being mappend. Note that with >*> as mappend, we will never run p2 before p1 finishes and p3 before p2 finishes so that the order will always be p1 > p2 > p3, where a > b indicates that program a runs before b. 
+The associativity law is also true with >*> being mappend. Note that with >*> as mappend, we will 
+never run p2 before p1 finishes and p3 before p2 finishes so that the order will always be 
+p1 > p2 > p3, where a > b indicates that program a runs before b. 
 
 
-The project code is organized as follows (I used the stub cabal package provided by Chalmers for the assginment). All code is in src.
+The project code is organized as follows (I used the stub cabal package provided by Chalmers for the
+assignment). All code is in src.
 
 	1. TimeStep
-		This holds all of the code relating to the abstract program and parallel program class discussed above, where by program we mean any program that takes some object and does some operations on it. So this type class can be used for programs that are specific to animating rabbits, or animating a lion, or animating even two objects at once (as a pair), etc. - it is defined in as general a way as possible.
+		This holds all of the code relating to the abstract program and parallel program 
+class discussed above, where by program we mean any program that takes some object and does some 
+operations on it. So this type class can be used for programs that are specific to animating rabbits,
+or animating a lion, or animating even two objects at once (as a pair), etc. - it is defined in as 
+general a way as possible.
 
 	2. Utils
-		This contains helpful utility files for the project. The only one I needed was the HGLUtils module, which converts from the Turtle world to the HGL world.
+		This contains helpful utility files for the project. The only one I needed was the 
+HGLUtils module, which converts from the Turtle world to the HGL world.
 
 	3. Turtle
-		This module contains the code defining the Turtle object used for this project, as well as its pen.
+		This module contains the code defining the Turtle object used for this project, as 
+well as its pen.
 
 	4. TProgram
-		This module contains all of the code implementing the Turtle programming language itself, such as the operations defined above. It also has the code for the textual and graphical interfaces, and for all of the other cool examples that can be drawn with the Turtle programming language.
+		This module contains all of the code implementing the Turtle programming language 
+itself, such as the operations defined above. It also has the code for the textual and graphical 
+interfaces, and for all of the other cool examples that can be drawn with the Turtle programming 
+language.
