@@ -1,7 +1,6 @@
 {-# LANGUAGE MultiParamTypeClasses, 
     FlexibleInstances,
     FunctionalDependencies, 
-    AllowAmbiguousTypes,
     ScopedTypeVariables    
  #-}
 {- | This module contains the definition of the TimeStepProgram type class, and 

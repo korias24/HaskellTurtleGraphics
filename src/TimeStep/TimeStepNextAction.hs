@@ -12,7 +12,7 @@ module TimeStepNextAction (
      
      For any instance n to be a valid TimeStepNextAction type, we must have the
      following rule hold for all n:
-        reme n ~= contm n
+        isJust (contm n) == isNothing (reme n)
      
      Basically saying that if contm returns a Just object, then reme must return
      Nothing and vice versa.
