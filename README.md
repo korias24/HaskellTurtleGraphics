@@ -67,6 +67,7 @@ The associativity law is also true with >*> being mappend. Note that with >*> as
 
 
 The project code is organized as follows (I used the stub cabal package provided by Chalmers for the assginment). All code is in src.
+
 	1. TimeStep
 		This holds all of the code relating to the abstract program and parallel program class discussed above, where by program we mean any program that takes some object and does some operations on it. So this type class can be used for programs that are specific to animating rabbits, or animating a lion, or animating even two objects at once (as a pair), etc. - it is defined in as general a way as possible.
 
