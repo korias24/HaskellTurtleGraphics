@@ -23,7 +23,9 @@ import Data.Maybe (fromJust, isJust)
 
 {- | The TimeStepParallelProgram type class represent programs that can be run
      in parallel. Here, parallel means that the Turtle forks off into different paths,
-     where each path represents some program.
+     where each path represents some program. So if there are N parallel programs, then
+     after a singel step with an initial object o, there will be N different objects o'
+     corresponding to what each program did to the object during that step.
 
      The operator <|> represents two parallel programs that can be combined to form
      a single, composite parallel program.

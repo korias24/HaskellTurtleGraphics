@@ -49,7 +49,8 @@ type ProgStatus = Bool
 instance Monoid TSummary where
   mempty = Idle
   mappend = combine
-  
+
+-- | TimeStepSummary instance  
 instance TimeStepSummary TSummary where
   killed = Kill
   dying  = Dying

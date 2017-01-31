@@ -20,7 +20,11 @@ import qualified Numeric as N
 delayTextual :: IO ()
 delayTextual = return ()
 
--- | Animation function for the textual interface.
+-- | Animation function for the textual interface. At each step, the Turtle's state
+--   before the animation is printed, then the operations performed on it are printed
+--   afterwards, and then the final Turtle state afterward is printed. Note that this
+--   interface is not readable if used with parallel programs - I felt that the graphical
+--   interface by itself better showcased the parallel programs' use.
 animateTextual :: Turtle -> TSummary -> IO ()
 
 animateTextual tur s = do putStrLn $ showState tur

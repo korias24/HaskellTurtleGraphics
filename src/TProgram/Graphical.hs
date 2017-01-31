@@ -21,8 +21,11 @@ delayGraphical :: Window -> IO ()
 delayGraphical = getWindowTick
 
 -- | Animation function for the graphical interface. Note that the only thing this really
---   requires is drawing the Turtle each time it moves forward. Outside of that, everything
---   else is explained in the Textual interface.
+--   requires is drawing the Turtle each time it moves forward - that is the step we need
+--   to animate in the graphics window. When the Turtle dies, a message is printed to the
+--   console indicating that it is dead. For all other operations, we don't need to show
+--   anything to the user (it can get annoying reading the console for things like penup,
+--   pendown, color, etc.).
 animateGraphical :: Window -> Turtle -> TSummary -> IO ()
 animateGraphical w tur ts = do animateGraphical' tur ts
                                return ()
@@ -54,4 +57,4 @@ animateGraphical w tur ts = do animateGraphical' tur ts
   animateGraphical' tur Kill = do putStrLn "Turtle died!"
                                   return (kill tur)
 
-  animateGraphical' tur ts = return tur -- animateTextual' tur ts
+  animateGraphical' tur ts = return tur

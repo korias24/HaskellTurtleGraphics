@@ -72,12 +72,16 @@ import qualified Graphics.HGL as HGL
 
 
 
+-- | STProgram is meant to stand for Single Turtle Program.
 type STProgram = Program Energy NextAction TSummary Turtle
+
+-- | NATProgram is meant to stand for NextAction Turtle Program.
 type NATProgram = NextAction STProgram Energy
 
+-- | TProgram stands for Turtle program.
 newtype TProgram = TProgram { getp :: PlProgram STProgram }
 
--- For simplicity
+-- For simplicity, it is easy to associate energy with a decimal quantity
 type Energy = Float
 
 
@@ -127,23 +131,24 @@ die :: TProgram
 die = instant kill Kill
 
 -- | Runs the given program for the specified number of steps,
---   or until the program is finished.
+--   or until the program is finished. Does NOT work with parallel
+--   programs.
 limited :: Time -> TProgram -> TProgram
 limited t p = tprogram $ Program $ \e tur ->
-  case (t <= 0) of
-    True  -> (finish e, tur, EndLimited False)
+  case (t <= 0) of -- t == 0 means that our time is up
+    True  -> (finish e, tur, EndLimited False) -- Time was up before program could finish
     
-    False -> let (na, tur', s_t) = runStep (getsp $ getp p) e tur
-                 t' = t - 1
-                 (na', s_t') 
-                   = case na of
-                       DoNext e' 
+    False -> let (na, tur', s_t) = runStep (getsp $ getp p) e tur -- Time is OK, run one step
+                 t' = t - 1 
+                 (na', s_t')  -- Result of the program after running the other (t-1) steps
+                   = case na of -- Check our previous step
+                       DoNext e' -- Program finished before time was up
                          -> (DoNext e', EndLimited True)
-                       Continue p' 
-                         -> let tp' = tprogram p'
+                       Continue p' -- Program is not complete
+                         -> let tp' = tprogram p' -- Run the continuation of the program for (t - 1) steps
                             in (Continue (getsp $ getp $ limited t' tp'), RunLimited t')
                                 
-             in (na', tur', s_t <> s_t')
+             in (na', tur', s_t <> s_t') -- Overall result
 
 -- | Sequences two programs together. Note that the implementation
 --   takes into account of programs sequenced multiple times.
@@ -151,8 +156,6 @@ limited t p = tprogram $ Program $ \e tur ->
 p1 >*> p2 = tprogram $ (getsp $ getp p1) >@> (getsp $ getp p2)
 
 -- | Sequences two programs together and turns them into a parallel program.
---   Note that for now, the two programs will just make their turtle run
---   different programs
 (<|>) :: TProgram -> TProgram -> TProgram
 (<|>) p1 p2 = TProgram $ (getp p1) <||> (getp p2)
 

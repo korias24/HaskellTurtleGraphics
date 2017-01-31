@@ -65,7 +65,8 @@ data Status = Alive
             | Terminal Time
   deriving Show -- for debugging
   
-  
+
+-- | Initial turtle that all programs will start with.  
 initTurtle :: Turtle
 initTurtle = turtle (0, 100)
 
@@ -110,6 +111,9 @@ kill = modifyStatus (const Dead)
 type Time = Int
 
 -- | Marks the turtle for death after some time, t has passed.
+--   If the Turtle is already marked for death, then this method
+--   will remark it again if it will kill the Turtle at an earlier
+--   time.
 markTerminal :: Time -> Turtle -> Turtle
 markTerminal t = modifyStatus toTerminal
   where
@@ -172,7 +176,7 @@ bound f
   where
     truncateO :: Orientation -> Orientation
     truncateO = fromInteger . truncate
-    
+   
     bound' :: Orientation -> Orientation -> Orientation
     bound' m o = let i = truncateO $ o / m
                  in o - i * m
