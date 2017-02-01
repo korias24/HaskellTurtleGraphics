@@ -7,7 +7,8 @@ University (I am doing the one on http://www.cse.chalmers.se/edu/year/2016/cours
 It is an assignment that's done in pairs with some questions and a report written, but I chose to 
 focus only on the implementation of the required components in the assignment (with some additional 
 features of my own such as the while and ifelse constructs). The assignment also asked to consider 
-a deep or a shallow embedding; I chose a shallow embedding as will be explained later below.
+a deep or a shallow embedding; I chose a shallow embedding as will be explained later below. For some
+cool examples produced by the language, please see the PDF "Examples".
 
 NOTE: This project was compiled and built using GHC version 8.0.2. Also "TProgram" in this project 
 is their "Program" in the assignment. It is built and run using cabal.
